@@ -4,7 +4,7 @@ import requests
 import pandas as pd
 import streamlit as st
 
-# Address of the Flask backend. Inside the Docker network the backend container is reachable by its name.
+# Address of the Flask backend. docker-compose.yml sets it through the BACKEND_URL environment variable.
 BACKEND_URL = os.getenv("BACKEND_URL", "http://superkart-backend:7860").rstrip("/")
 
 st.set_page_config(page_title="SuperKart Sales Forecaster", page_icon="🛒", layout="centered")
