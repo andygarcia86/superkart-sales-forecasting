@@ -1,6 +1,8 @@
 # Runs the backend and the frontend as two containers on a shared network with one command:
 #     docker compose up -d --build
-# Compose gives each service a stable DNS name on that network, so the frontend reaches the API at http://backend:7860
+# Both containers share one Docker network. The frontend calls the API through the port the backend publishes on the host
+# (host.docker.internal:7860): in GitHub Codespaces direct container-to-container traffic times out, while this route works
+# there, on Linux and on Docker Desktop.
 name: superkart
 
 services:
@@ -22,7 +24,9 @@ services:
     ports:
       - "8501:8501"
     environment:
-      BACKEND_URL: http://backend:7860
+      BACKEND_URL: http://host.docker.internal:7860
+    extra_hosts:
+      - "host.docker.internal:host-gateway"
     depends_on:
       backend:
         condition: service_healthy
